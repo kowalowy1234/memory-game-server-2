@@ -24,29 +24,29 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.log(`Client [${client.id}] disconnected`)
   }
 
-  @SubscribeMessage('createRoom')
-  create(@MessageBody() createRoomDto: CreateRoomDto) {
-    console.log('room created');
-    return this.roomService.create(createRoomDto);
-  }
+  // @SubscribeMessage('createRoom')
+  // create(@MessageBody() createRoomDto: CreateRoomDto) {
+  //   console.log('room created');
+  //   return this.roomService.create(createRoomDto);
+  // }
 
-  @SubscribeMessage('findAllRoom')
-  findAll() {
-    return this.roomService.findAll();
-  }
+  // @SubscribeMessage('findAllRoom')
+  // findAll() {
+  //   return this.roomService.findAll();
+  // }
 
-  @SubscribeMessage('findOneRoom')
-  findOne(@MessageBody() id: number) {
-    return this.roomService.findOne(id);
-  }
+  // @SubscribeMessage('findOneRoom')
+  // findOne(@MessageBody() id: number) {
+  //   return this.roomService.findOne(id);
+  // }
 
-  @SubscribeMessage('updateRoom')
-  update(@MessageBody() updateRoomDto: UpdateRoomDto) {
-    return this.roomService.update(updateRoomDto.id, updateRoomDto);
-  }
+  // @SubscribeMessage('updateRoom')
+  // update(@MessageBody() updateRoomDto: UpdateRoomDto) {
+  //   return this.roomService.update(updateRoomDto.id, updateRoomDto);
+  // }
 
-  @SubscribeMessage('removeRoom')
-  remove(@MessageBody() id: number) {
-    return this.roomService.remove(id);
-  }
+  // @SubscribeMessage('removeRoom')
+  // remove(@MessageBody() id: number) {
+  //   return this.roomService.remove(id);
+  // }
 }
