@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RoomModule } from './modules/room/room.module';
 import { GameModule } from './modules/game/game.module';
-import { SocketService } from './services/socket/socket.service';
 import { PlayerModule } from './modules/player/player.module';
 import configuration from '../config/env/configuration';
 
@@ -14,13 +13,12 @@ import configuration from '../config/env/configuration';
       envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
       load: [configuration],
     }),
-
     RoomModule,
     GameModule,
     PlayerModule,
   ],
   controllers: [AppController],
-  providers: [SocketService],
+  providers: [],
 })
 export class AppModule {
   private readonly logger = new Logger(AppModule.name);
