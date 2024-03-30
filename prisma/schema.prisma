@@ -11,7 +11,7 @@ model Room {
   room_id    Int       @id @default(autoincrement())
   room_name  String    @unique()
   room_admin_id Int
-  room_password String?
+  room_password String
   start_time DateTime  @default(now())
   end_time   DateTime?
   settings   Json      @default("{}")

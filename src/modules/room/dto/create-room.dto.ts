@@ -1,7 +1,8 @@
-import { Allow, IsNotEmpty } from 'class-validator';
+import { Allow, IsNotEmpty, MaxLength } from 'class-validator';
 
 export class CreateRoomDto {
   @IsNotEmpty()
+  @MaxLength(30)
   room_name: string;
 
   @IsNotEmpty()

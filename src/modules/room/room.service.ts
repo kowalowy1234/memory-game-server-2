@@ -24,18 +24,30 @@ export class RoomService {
         );
       }
 
-      return await this.prisma.room.create({ data: { ...createRoomDto } });
+      const createdRoom = await this.prisma.room.create({
+        data: { ...createRoomDto },
+      });
+
+      this.logger.log(`Room ${createdRoom.room_id} - [created]`);
+
+      return this.helperService.excludeKeyFromObjectOrObjects(createdRoom, [
+        'room_password',
+      ]);
     } catch (e) {
-      throw new HttpException(
-        'Something went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return e;
     }
   }
 
   async getAll() {
     try {
-      return await this.prisma.room.findMany();
+      return await this.prisma.room.findMany({
+        select: {
+          room_id: true,
+          room_name: true,
+          players: true,
+          is_active: true,
+        },
+      });
     } catch (e) {
       throw new HttpException(
         'Something went wrong',
@@ -61,15 +73,23 @@ export class RoomService {
       throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
     }
 
-    return room;
+    return this.helperService.excludeKeyFromObjectOrObjects(room, [
+      'room_password',
+    ]);
   }
 
   async getOneByName(room_name: string) {
-    return await this.prisma.room.findFirst({
+    const room = await this.prisma.room.findFirst({
       where: {
         room_name,
       },
+      select: {
+        room_id: true,
+        room_name: true,
+      },
     });
+
+    return room;
   }
 
   async updateById(room_id: number, data: UpdateRoomDto) {
@@ -82,19 +102,25 @@ export class RoomService {
     }
 
     const room = await this.prisma.room.findFirst({
-      where: { room_id: room_id },
+      where: { room_id: validId },
     });
 
     if (!room) {
       throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.room.update({
-      where: {
-        room_id: validId,
-      },
-      data,
-    });
+    try {
+      const updatedRoom = await this.prisma.room.update({
+        where: {
+          room_id: validId,
+        },
+        data,
+      });
+      this.logger.log(`Room ${validId} - [updated]`);
+      return updatedRoom;
+    } catch (e) {
+      return e;
+    }
   }
 
   async removeById(id: number) {
@@ -105,7 +131,6 @@ export class RoomService {
     } catch (e) {
       return e;
     }
-
     const room = await this.prisma.room.findFirst({
       where: { room_id: validId },
     });
@@ -114,8 +139,19 @@ export class RoomService {
       throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
     }
 
-    return await this.prisma.room.delete({
-      where: { room_id: validId },
-    });
+    try {
+      const deletedRoom = await this.prisma.room.delete({
+        where: { room_id: validId },
+      });
+      this.logger.log(`Room ${validId} - [removed]`);
+
+      return this.helperService.excludeKeyFromObjectOrObjects(deletedRoom, [
+        'room_password',
+      ]);
+
+      return deletedRoom;
+    } catch (e) {
+      return e;
+    }
   }
 }
