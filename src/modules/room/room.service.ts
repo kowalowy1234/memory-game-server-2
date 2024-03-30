@@ -3,6 +3,7 @@ import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { PrismaClient } from '@prisma/client';
 import { HelperService } from 'src/services/helperService';
+import { selectRoomWithoutPasswordObject } from 'src/common/helper-objects';
 
 @Injectable()
 export class RoomService {
@@ -26,13 +27,12 @@ export class RoomService {
 
       const createdRoom = await this.prisma.room.create({
         data: { ...createRoomDto },
+        select: selectRoomWithoutPasswordObject,
       });
 
       this.logger.log(`Room ${createdRoom.room_id} - [created]`);
 
-      return this.helperService.excludeKeyFromObjectOrObjects(createdRoom, [
-        'room_password',
-      ]);
+      return createdRoom;
     } catch (e) {
       return e;
     }
@@ -67,15 +67,14 @@ export class RoomService {
 
     const room = await this.prisma.room.findFirst({
       where: { room_id: validId },
+      select: selectRoomWithoutPasswordObject,
     });
 
     if (!room) {
       throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
     }
 
-    return this.helperService.excludeKeyFromObjectOrObjects(room, [
-      'room_password',
-    ]);
+    return room;
   }
 
   async getOneByName(room_name: string) {
@@ -142,12 +141,11 @@ export class RoomService {
     try {
       const deletedRoom = await this.prisma.room.delete({
         where: { room_id: validId },
+        select: selectRoomWithoutPasswordObject,
       });
       this.logger.log(`Room ${validId} - [removed]`);
 
-      return this.helperService.excludeKeyFromObjectOrObjects(deletedRoom, [
-        'room_password',
-      ]);
+      return deletedRoom;
 
       return deletedRoom;
     } catch (e) {
