@@ -5,10 +5,10 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { RoomService } from './room.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { Logger } from '@nestjs/common';
+import { RoomService } from './room.service';
 
 @WebSocketGateway({ cors: '*', namespace: 'room' })
 export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -17,11 +17,11 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly roomService: RoomService) {}
 
   handleConnection(client: any, ...args: any[]) {
-    this.logger.log(`New client connected - [${client.id}]`)
+    this.logger.log(`New client connected - [${client.id}]`);
   }
 
   handleDisconnect(client: any) {
-    this.logger.log(`Client [${client.id}] disconnected`)
+    this.logger.log(`Client [${client.id}] disconnected`);
   }
 
   // @SubscribeMessage('createRoom')
