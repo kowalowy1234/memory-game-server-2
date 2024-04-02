@@ -8,16 +8,17 @@ datasource db {
 }
 
 model Room {
-  room_id    Int       @id @default(autoincrement())
-  room_name  String    @unique()
+  room_id       Int       @id @default(autoincrement())
+  room_name     String    @unique()
   room_admin_id Int
   room_password String
-  start_time DateTime  @default(now())
-  end_time   DateTime?
-  settings   Json      @default("{}")
-  created_at DateTime  @default(now())
-  is_active  Boolean   @default(true)
-  players    Player[]
+  start_time    DateTime  @default(now())
+  end_time      DateTime?
+  settings      Json      @default("{}")
+  created_at    DateTime  @default(now())
+  is_active     Boolean   @default(true)
+  players       Player[]
+  max_players   Int?      @default(4)
 }
 
 model Card {
@@ -32,5 +33,5 @@ model Player {
   attempts    Int     @default(0)
   room        Room?   @relation(fields: [room_id], references: [room_id])
   room_id     Int?
-  id_admin     Boolean @default(false)
+  id_admin    Boolean @default(false)
 }

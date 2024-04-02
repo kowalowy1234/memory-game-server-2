@@ -46,6 +46,7 @@ export class RoomService {
           room_name: true,
           players: true,
           is_active: true,
+          max_players: true,
         },
       });
     } catch (e) {
@@ -114,6 +115,7 @@ export class RoomService {
           room_id: validId,
         },
         data,
+        select: selectRoomWithoutPasswordObject,
       });
       this.logger.log(`Room ${validId} - [updated]`);
       return updatedRoom;
@@ -144,8 +146,6 @@ export class RoomService {
         select: selectRoomWithoutPasswordObject,
       });
       this.logger.log(`Room ${validId} - [removed]`);
-
-      return deletedRoom;
 
       return deletedRoom;
     } catch (e) {

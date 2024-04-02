@@ -6,4 +6,5 @@ export const selectRoomWithoutPasswordObject = {
   end_time: true,
   created_at: true,
   is_active: true,
+  max_players: true,
 };
