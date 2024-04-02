@@ -2,7 +2,6 @@ import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RoomModule } from './modules/room/room.module';
-import { GameModule } from './modules/game/game.module';
 import { PlayerModule } from './modules/player/player.module';
 import configuration from '../config/env/configuration';
 
@@ -14,7 +13,6 @@ import configuration from '../config/env/configuration';
       load: [configuration],
     }),
     RoomModule,
-    GameModule,
     PlayerModule,
   ],
   controllers: [AppController],
