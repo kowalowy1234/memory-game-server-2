@@ -57,6 +57,27 @@ export class RoomService {
     }
   }
 
+  async getRoomPlayers(room_id: number) {
+    try {
+      const room = await this.prisma.room.findFirst({
+        where: {
+          room_id,
+        },
+        include: {
+          players: true,
+        },
+      });
+
+      if (!room) {
+        throw new HttpException('Room not found', HttpStatus.NOT_FOUND);
+      }
+
+      return room.players;
+    } catch (e) {
+      return e;
+    }
+  }
+
   async getOneById(id: number) {
     let validId;
 

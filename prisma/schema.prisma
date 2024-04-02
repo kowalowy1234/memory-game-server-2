@@ -31,7 +31,7 @@ model Player {
   player_name String  @default("Guest")
   pairs_left  Int     @default(0)
   attempts    Int     @default(0)
-  room        Room?   @relation(fields: [room_id], references: [room_id])
+  room        Room?   @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
   room_id     Int?
-  id_admin    Boolean @default(false)
+  socket_id   Int     @unique
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { RoomService } from './room.service';
@@ -13,8 +21,13 @@ export class RoomController {
   }
 
   @Get(':roomId')
-  async getRoom(@Param('roomId') roomId: number) {
-    return await this.roomService.getOneById(roomId);
+  async getRoom(@Param('roomId') roomId: string) {
+    return await this.roomService.getOneById(+roomId);
+  }
+
+  @Get('players/:roomId')
+  async getRoomPlayers(@Param('roomId') roomId: string) {
+    return await this.roomService.getRoomPlayers(+roomId);
   }
 
   @Post()
@@ -22,16 +35,16 @@ export class RoomController {
     return await this.roomService.create(createRoomDto);
   }
 
-  @Delete(':roomId')
-  async deleteRoom(@Param('roomId') roomId: number) {
-    return await this.roomService.removeById(roomId);
+  @Delete('delete/:roomId')
+  async deleteRoom(@Param('roomId') roomId: string) {
+    return await this.roomService.removeById(+roomId);
   }
 
-  @Patch(':roomId')
+  @Patch('update/:roomId')
   async updateRoom(
-    @Param('roomId') roomId: number,
+    @Param('roomId') roomId: string,
     @Body() updateRoomDto: UpdateRoomDto,
   ) {
-    return await this.roomService.updateById(roomId, updateRoomDto);
+    return await this.roomService.updateById(+roomId, updateRoomDto);
   }
 }

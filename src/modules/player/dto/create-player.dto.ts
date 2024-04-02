@@ -1,4 +1,4 @@
-import { Allow } from 'class-validator';
+import { Allow, IsNotEmpty } from 'class-validator';
 
 export class CreatePlayerDto {
   @Allow()
@@ -6,4 +6,10 @@ export class CreatePlayerDto {
 
   @Allow()
   is_admin: boolean;
+
+  @IsNotEmpty()
+  room_id: number;
+
+  @IsNotEmpty()
+  socket_id: number;
 }

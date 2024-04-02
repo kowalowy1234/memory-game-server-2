@@ -8,5 +8,6 @@ import { PrismaClient } from '@prisma/client';
 @Module({
   providers: [RoomGateway, RoomService, HelperService, PrismaClient],
   controllers: [RoomController],
+  exports: [RoomService],
 })
 export class RoomModule {}

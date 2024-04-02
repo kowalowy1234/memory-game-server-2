@@ -15,7 +15,7 @@ export class HelperService {
   excludeKeyFromObjectOrObjects<O, K extends keyof O>(
     target: O | O[],
     keys: K[],
-  ): Omit<O, K> {
+  ): Omit<O, K> | Omit<O, K>[] {
     if (isArray(target)) {
       const result: Omit<O, K>[] = [];
 
@@ -26,6 +26,8 @@ export class HelperService {
           ) as Omit<O, K>,
         );
       }
+
+      return result;
     }
 
     return Object.fromEntries(
