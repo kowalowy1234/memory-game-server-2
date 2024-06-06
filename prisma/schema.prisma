@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = "linux-musl-openssl-3.0.x"
 }
 
 datasource db {
@@ -27,11 +28,11 @@ model Card {
 }
 
 model Player {
-  player_id   Int     @id @default(autoincrement())
-  player_name String  @default("Guest")
-  pairs_left  Int     @default(0)
-  attempts    Int     @default(0)
-  room        Room?   @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
+  player_id   Int    @id @default(autoincrement())
+  player_name String @default("Guest")
+  pairs_left  Int    @default(0)
+  attempts    Int    @default(0)
+  room        Room?  @relation(fields: [room_id], references: [room_id], onDelete: Cascade)
   room_id     Int?
-  socket_id   Int     @unique
+  socket_id   Int    @unique
 }
